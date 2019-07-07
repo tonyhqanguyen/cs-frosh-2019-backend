@@ -1,0 +1,27 @@
+{
+  "name": "cs-frosh-2019-backend",
+  "version": "1.0.0",
+  "description": "backend for cs-frosh",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.2.0",
+    "password-hash": "^1.2.2",
+    "nodemailer": "^6.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltraSpecialException/cs-frosh-2019-backend.git"
+  },
+  "author": "Tony Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UltraSpecialException/cs-frosh-2019-backend/issues"
+  },
+  "homepage": "https://github.com/UltraSpecialException/cs-frosh-2019-backend#readme"
+}
