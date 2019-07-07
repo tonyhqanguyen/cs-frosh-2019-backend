@@ -15,10 +15,10 @@ app.set("port", (process.env.PORT) || 4000);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', function(request, response) {
-  var result = 'App is running'
-  response.send(result);
-}).listen(app.get('port'), function() {
+app.get('/', (req, resp) => {
+  var result = 'App is running';
+  resp.send(result);
+}).listen(app.get('port'), () => {
   console.log('App is running, server is listening on port ', app.get('port'));
 });
 
