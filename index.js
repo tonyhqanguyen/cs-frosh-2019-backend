@@ -11,15 +11,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.set("port", 8081);
+app.set("port", (process.env.PORT) || 4000);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.listen(app.get('port'), () => console.log("Server is listening, port " + app.get('port')));
-
-app.get("/", () => {
-  console.log("Hello, I am CS Orientation Backend!")
-})
+app.get('/', function(request, response) {
+  var result = 'App is running'
+  response.send(result);
+}).listen(app.get('port'), function() {
+  console.log('App is running, server is listening on port ', app.get('port'));
+});
 
 app.post("/register", registration.registerEmail);
 
