@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const ngrok = require("ngrok");
 var cors = require('cors');
 
 const registration = require("./controllers/registration");
@@ -20,6 +21,9 @@ app.get('/', (req, resp) => {
   resp.send(result);
 }).listen(app.get('port'), () => {
   console.log('App is running, server is listening on port ', app.get('port'));
+  ngrok.conenct(port, (err, url) => {
+    console.log(`Node.js local server is public available at ${url}`)
+  })
 });
 
 app.post("/register", registration.registerEmail);
