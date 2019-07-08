@@ -41,7 +41,7 @@ const registration = (name, code) => {
         your responses to prepare the best orientation for you! 
     
         We would also like to invite you to register your credentials at our website. Please follow
-        this <a href="https://google.com">registration link</a> to register. You will need to enter this code 
+        this <a href="https://csfrosh2019.com/activate">registration link</a> to register. You will need to enter this code 
         during your registration. The code will only be valid for <p1 style="font-weight: bold">30</p1> minutes. 
         <br/><br/>
     
