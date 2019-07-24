@@ -7,8 +7,9 @@ db = db.db;
 
 const registerEmail = async (req, res) => {
   console.log(req.body);
-  const doc = await db.collection("students").get(req.body.email);
-  if (!doc.exists) {
+  const doc = await db.collection("students").doc(req.body.email).get();
+  console.log(doc.exists);
+  if (doc.data() === undefined) {
     const code = await email.sendEmailRegistration(req.body.email, req.body.name);
     const tempData = {...req.body, "code": code}
     console.log(tempData);
