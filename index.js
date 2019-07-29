@@ -29,7 +29,8 @@ app.get('/', (req, resp) => {
 app.post('/authenticate', authentication.verifyJWT, authentication.allowAccess);
 app.post('/login', authentication.authenticate);
 
-app.post("/register", registration.registerEmail);
+app.post("/registerStudent", registration.registerEmail);
+app.post("/registerClub", registration.registerClubEmail);
 app.post("/activate", activation.authenticateWithActivationCode);
 app.post("/createPassword", activation.createPassword);
 

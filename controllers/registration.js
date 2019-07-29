@@ -5,6 +5,10 @@ let db = require("../database");
 
 db = db.db;
 
+
+/**
+ * Student registration
+ */
 const registerEmail = async (req, res) => {
   console.log(req.body);
   const doc = await db.collection("students").doc(req.body.email).get();
@@ -21,6 +25,26 @@ const registerEmail = async (req, res) => {
   }
 }
 
+
+const registerClubEmail = async (req, res) => {
+  const doc = await db.collection("clubs").doc(req.body.email).get();
+  
+  try {
+    if (doc.data() === undefined) {
+      const info = { name: req.body.name, email: req.body.email, purpose: req.body.purpose };
+      await db.collection("clubs").doc(req.body.email).set(info);
+      res.status(200).send("Your club registration has been finished successfully.");
+    } else {
+      res.status(200).send("The email you used to register is associated to a club we already have on file. \
+      This means your club has already registered. If you believe that this is a mistake. Please contact us immediately.")
+    } 
+  } catch (error) {
+    console.log("Error while registering club: ", error);
+    res.status(500).send("There was an error with our server. Please try again later.");
+  }
+}
+
 module.exports = {
   registerEmail,
+  registerClubEmail
 }
