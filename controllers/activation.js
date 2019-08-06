@@ -49,7 +49,7 @@ const createPassword = async (req, res) => {
     const hashedPassword = passHash.generate(password);
     const studentDoc = await db.collection("unconfirmed").doc(email).get();
 
-    const studentData = { ...studentDoc.data(), password: hashedPassword, role: "students" };
+    const studentData = { ...studentDoc.data(), password: hashedPassword, role: "student" };
     await db.collection("students").doc(email).set(studentData);
 
     const studentDataByName = { ...studentData, email: email };
