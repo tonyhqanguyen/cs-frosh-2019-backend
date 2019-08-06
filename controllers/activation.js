@@ -32,7 +32,7 @@ const authenticateWithActivationCode = async (req, res) => {
       }
     } else {
       console.log("incorrect")
-      res.status(200).send({ data: "Incorrect code" })
+      res.status(200).send({ data: "Incorrect code" });
     }
   }
 }
@@ -49,8 +49,7 @@ const createPassword = async (req, res) => {
     const hashedPassword = passHash.generate(password);
     const studentDoc = await db.collection("unconfirmed").doc(email).get();
 
-    const studentData = { ...studentDoc.data(), password: hashedPassword };
-    console.log("email", email);
+    const studentData = { ...studentDoc.data(), password: hashedPassword, role: "students" };
     await db.collection("students").doc(email).set(studentData);
 
     const studentDataByName = { ...studentData, email: email };

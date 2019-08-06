@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const registration = require("./controllers/registration");
 const activation = require("./controllers/activation");
 const authentication = require("./controllers/authentication");
+const data = require("./controllers/retrieval");
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,11 +27,17 @@ app.get('/', (req, resp) => {
 }).listen(app.get('port'), () => {
   console.log('App is running, server is listening on port ', app.get('port'));
 });
+
+app.post('/getStudents', authentication.verifyJWT, data.getStudents);
+app.post('/searchStudents', authentication.verifyJWT, data.searchStudents);
+app.post('/getClubs', authentication.verifyJWT, data.getClubs);
+app.post('/searchClubs', authentication.verifyJWT, data.searchClubs);
+
 app.post('/authenticate', authentication.verifyJWT, authentication.allowAccess);
 app.post('/login', authentication.authenticate);
 
-app.post("/registerStudent", registration.registerEmail);
-app.post("/registerClub", registration.registerClubEmail);
-app.post("/activate", activation.authenticateWithActivationCode);
-app.post("/createPassword", activation.createPassword);
+app.post('/registerStudent', registration.registerEmail);
+app.post('/registerClub', registration.registerClubEmail);
+app.post('/activate', activation.authenticateWithActivationCode);
+app.post('/createPassword', activation.createPassword);
 
