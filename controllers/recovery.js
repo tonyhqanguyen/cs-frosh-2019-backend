@@ -33,11 +33,15 @@ const requestPasswordRecoveryStudent = async (req, res) => {
   try {
     const email = req.body.email;
     const studentAccount = await db.collection("students").doc(email).get();
+    if (studentAccount.data() === undefined) {
+      res.status(400).send("Your email isn't associated to any account on our file. If you believe this is a mistake, please contact us at csorientation2019@gmail.com");
+      return;
+    }
     const name = studentAccount.data().name;
     await emailSender.sendEmailRecovery(email, name);
     res.sendStatus(200);
   } catch (error) {
-    res.sendStatus(500);
+    res.status(500).send("There was an error. Please try again later");
   }
 }
 
