@@ -10,6 +10,8 @@ const registration = require("./controllers/registration");
 const activation = require("./controllers/activation");
 const authentication = require("./controllers/authentication");
 const data = require("./controllers/retrieval");
+const info = require("./controllers/info");
+const recover = require("./controllers/recovery");
 
 const app = express();
 app.use(bodyParser.json());
@@ -40,4 +42,10 @@ app.post('/registerStudent', registration.registerEmail);
 app.post('/registerClub', registration.registerClubEmail);
 app.post('/activate', activation.authenticateWithActivationCode);
 app.post('/createPassword', activation.createPassword);
+
+app.post('/updateInfoStudent', authentication.verifyJWT, info.updateInfoStudent);
+
+app.post('/recoverPasswordStudent', recover.setNewPasswordStudent);
+app.post('/sendRecoveryEmailStudent', recover.requestPasswordRecoveryStudent);
+app.post('/verifyRecoverToken', recover.verifyRecoverToken);
 

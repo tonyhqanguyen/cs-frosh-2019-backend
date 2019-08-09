@@ -6,4 +6,4 @@ const f = async () => {
   console.log(res.data(), typeof res, res.data() === undefined);
 }
 
-console.log(passHash.generate("fFrRoOsShH22001199"));
+const 

@@ -12,16 +12,14 @@ const authenticateWithActivationCode = async (req, res) => {
 
   const doc = await db.collection("unconfirmed").doc(email).get();
 
-  if (!doc.exists) {
+  if (doc.data() === undefined) {
     res.status(200).send({ data: "Email not registered!" })
   } else {
     if (doc.data().code === code) {
-      console.log("correct code");
       const codeInfo = await db.collection("codes").doc(code).get();
       const time = new Date();
 
       if (time.getTime() <= codeInfo.data().expires && !codeInfo.data().used) {
-        console.log("success")
         res.status(200).send({ data: "Success" })
       } else {
         if (time.getTime() > codeInfo.data().expires) {
@@ -31,7 +29,6 @@ const authenticateWithActivationCode = async (req, res) => {
         }
       }
     } else {
-      console.log("incorrect")
       res.status(200).send({ data: "Incorrect code" });
     }
   }
@@ -49,8 +46,33 @@ const createPassword = async (req, res) => {
     const hashedPassword = passHash.generate(password);
     const studentDoc = await db.collection("unconfirmed").doc(email).get();
 
+    let stats = await db.collection("stats").doc("diet").get();
+    stats = {...stats.data()}
+    const diet = studentDoc.data().diet;
+    if (diet.hasOwnProperty("vegetarian")) {
+      stats.vegetarian++;
+    } 
+
+    if (diet.hasOwnProperty("vegan")) {
+      stats.vegan++;
+    }
+
+    if (diet.hasOwnProperty("glutenFree")) {
+      stats.glutenFree++;
+    }
+    if (diet.other && diet.otherDiets !== "") {
+      if (stats.hasOwnProperty(diet.otherDiets.toLowerCase())) {
+        stats[diet.otherDiets.toLowerCase()]++;
+      } else {
+        stats[diet.otherDiets.toLowerCase()] = 1;
+      }
+    }
+    
+    await db.collection("stats").doc("diet").set(stats);
+
     const studentData = { ...studentDoc.data(), password: hashedPassword, role: "student" };
     await db.collection("students").doc(email).set(studentData);
+    
 
     const studentDataByName = { ...studentData, email: email };
     delete studentDataByName.name;
