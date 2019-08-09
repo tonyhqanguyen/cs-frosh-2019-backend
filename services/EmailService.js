@@ -93,7 +93,7 @@ const recovery = (name, token) => {
     <p style="font-size: 200%">
       Hi ${name}, <br/>
       We have received a request to recovery your password recently for the account associated to your email.
-      Please follow this <a href="http://localhost:3000/recover?token=${token}">link</a> to recover your password. Please
+      Please follow this <a href="http://csfrosh2019.com/recover?token=${token}">link</a> to recover your password. Please
       treat this link with care and do not share it with anyone. <br/><br/>
 
       The link will only be valid for <p1 style="font-weight: bold">30</p1> minutes. 
