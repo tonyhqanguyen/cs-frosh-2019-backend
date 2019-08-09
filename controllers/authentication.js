@@ -26,7 +26,7 @@ const authenticate = async (req, res) => {
       date.setTime(date.getTime() + (3600000));
       res.status(200).send({ token: token, role: account.data().role });
     } else {
-      res.status(200).send("Incorrect password");
+      res.status(401).send("Incorrect password");
     }
   } catch (error) {
     console.log(error);
@@ -48,6 +48,7 @@ const verifyJWT = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
+    console.log(error.name)
     res.status(500).send("Error");
   }
 }

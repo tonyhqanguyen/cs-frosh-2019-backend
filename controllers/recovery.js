@@ -45,7 +45,7 @@ const requestPasswordRecoveryStudent = async (req, res) => {
 const verifyRecoverToken = async (req, res) => {
   const token = req.body.token;
   const time = new Date();
-
+  
   const tokenData = await db.collection("codes").doc(token).get();
   if (time.getTime() > tokenData.data().expires) {
     res.status(401).send("Your recovery link has expired, please request for another one.")
