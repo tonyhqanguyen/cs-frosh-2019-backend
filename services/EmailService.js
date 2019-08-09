@@ -12,8 +12,8 @@ const cssu = mailer.createTransport({
 });
 
 const generateCode = async (purpose, email) => {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()";
-  const length = 10;
+  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  const length = 20;
   let code = "";
   let doc = await db.collection("codes");
 
