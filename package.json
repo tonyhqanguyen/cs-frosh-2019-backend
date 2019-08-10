@@ -9,6 +9,7 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "firebase-admin": "^8.2.0",
+    "googleapis": "^42.0.0",
     "jsonwebtoken": "^8.5.1",
     "ngrok": "^3.2.1",
     "nodemailer": "^6.2.1",

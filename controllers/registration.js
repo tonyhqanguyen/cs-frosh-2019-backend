@@ -11,15 +11,21 @@ db = db.db;
  */
 const registerEmail = async (req, res) => {
   const doc = await db.collection("students").doc(req.body.email).get();
-  if (doc.data() === undefined) {
-    const code = await email.sendEmailRegistration(req.body.email, req.body.name);
-    const tempData = {...req.body, "code": code}
-    await db.collection("unconfirmed").doc(req.body.email).set(tempData);
-    console.log(`Added student ${req.body.email}.`)
-    res.status(200).send({ data: "Registration email sent successfully!" });
-  } else {
-    res.status(200).send({ data: "Email already exists." })
+    try {
+      if (doc.data() === undefined) {
+      const code = await email.sendEmailRegistration(req.body.email, req.body.name);
+      const tempData = {...req.body, "code": code}
+      await db.collection("unconfirmed").doc(req.body.email).set(tempData);
+      console.log(`Added student ${req.body.email}.`)
+      res.status(200).send({ data: "Registration email sent successfully!" });
+    } else {
+      res.status(200).send({ data: "Email already exists." })
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(200).send({ data: "There was a problem. Please contact us at csorientation2019@gmail.com for support."});
   }
+  
 }
 
 
