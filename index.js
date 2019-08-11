@@ -32,6 +32,8 @@ app.get('/', (req, resp) => {
 
 app.post('/getStudents', authentication.verifyJWT, data.getStudents);
 app.post('/searchStudents', authentication.verifyJWT, data.searchStudents);
+app.post('/getUnconfirmedStudents', authentication.verifyJWT, data.getUnconfirmedStudents);
+app.post('/searchUnconfirmedStudents', authentication.verifyJWT, data.searchUnconfirmedStudents);
 app.post('/getClubs', authentication.verifyJWT, data.getClubs);
 app.post('/searchClubs', authentication.verifyJWT, data.searchClubs);
 

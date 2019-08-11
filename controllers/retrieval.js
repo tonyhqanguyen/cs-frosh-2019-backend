@@ -15,6 +15,22 @@ const _getStudents = async () => {
   return students;
 }
 
+const _getUnconfirmedStudents = async (students) => {
+  let confirmed;
+  if (students === null) {
+    confirmed = await _getStudents();
+  } else {
+    confirmed = students;
+  }
+
+  let unconfirmedList = await db.collection("unconfirmed").get();
+  unconfirmedList = unconfirmedList.docs.map(doc => doc.data());
+  confirmed = confirmed.map(doc => doc.email);
+
+  unconfirmedList = unconfirmedList.filter(item => confirmed.indexOf(item.email) < 0);
+  return unconfirmedList;
+}
+
 
 const _getClubs = async () => {
   let clubs = await db.collection("clubs").get();
@@ -46,8 +62,20 @@ const getStudents = async (req, res) => {
     console.log(error);
     res.sendStatus(500);
   }
-  
-  
+}
+
+const getUnconfirmedStudents = async (req, res) => {
+  try {
+    const auth = await checkAuthorization(req, res);
+    if (auth) {
+      const unconfirmedStudents = await _getUnconfirmedStudents(null);
+
+      res.status(200).send(unconfirmedStudents);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 }
 
 
@@ -87,7 +115,7 @@ const searchStudents = async (req, res) => {
       const pruned = [];
       for (let i = 0; i < students.length; i++) {
         const stu = students[i];
-        if (stu.accom.toLowerCase().includes(keyword) || stu.diet.toLowerCase().includes(keyword) 
+        if (stu.accom.toLowerCase().includes(keyword)
         || stu.email.toLowerCase().includes(keyword) || stu.name.toLowerCase().includes(keyword) 
         || stu.phone.toLowerCase().includes(keyword) || stu.shirt.toLowerCase().includes(keyword)
         || sizes[stu.shirt.toLowerCase()].toLowerCase().includes(keyword)) {
@@ -96,6 +124,27 @@ const searchStudents = async (req, res) => {
       }
 
       res.status(200).send(pruned);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+const searchUnconfirmedStudents = async (req, res) => {
+  try {
+    const auth = await checkAuthorization(req, res);
+    if (auth) {
+      let unconfirmed;
+      if (req.body.unconfirmed && req.body.unconfirmed.length > 0) {
+        unconfirmed = req.body.unconfirmed;
+      } else {
+        unconfirmed = await _getUnconfirmedStudents();
+      }
+
+      req.body.students = unconfirmed;
+
+      await searchStudents(req, res);
     }
   } catch (error) {
     console.log(error);
@@ -136,6 +185,8 @@ const searchClubs = async (req, res) => {
 module.exports = {
   getStudents,
   getClubs,
+  getUnconfirmedStudents,
   searchStudents,
+  searchUnconfirmedStudents,
   searchClubs
 }
