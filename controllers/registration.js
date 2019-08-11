@@ -13,9 +13,9 @@ const registerEmail = async (req, res) => {
   const doc = await db.collection("students").doc(req.body.email).get();
     try {
       if (doc.data() === undefined) {
-      const code = await email.sendEmailRegistration(req.body.email, req.body.name);
-      const tempData = {...req.body, "code": code}
-      await db.collection("unconfirmed").doc(req.body.email).set(tempData);
+      const code = await email.sendEmailRegistration(req.body.email.toLowerCase(), req.body.name);
+      const tempData = {...req.body, email: req.body.email.toLowerCase(), "code": code}
+      await db.collection("unconfirmed").doc(req.body.email.toLowerCase()).set(tempData);
       console.log(`Added student ${req.body.email}.`)
       res.status(200).send({ data: "Registration email sent successfully!" });
     } else {
