@@ -12,8 +12,10 @@ db = db.db;
 const registerEmail = async (req, res) => {
   const doc = await db.collection("students").doc(req.body.email).get();
 
-  let time = new Date();
-  if (time.getTime() > 1566211500000) {
+  let t = new Date();
+  t.setTime(t.getTime() + t.getTimezoneOffset()*60*1000);
+  t.setTime(t.getTime() + -240*60*1000);
+  if (t.getTime() > 1566211500000) {
     res.status(200).send({ data: "Registration has closed"} )
     return;
   }
