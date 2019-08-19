@@ -49,15 +49,15 @@ const createPassword = async (req, res) => {
     let stats = await db.collection("stats").doc("diet").get();
     stats = {...stats.data()}
     const diet = studentDoc.data().diet;
-    if (diet.hasOwnProperty("vegetarian")) {
+    if (diet.vegetarian) {
       stats.vegetarian++;
     } 
 
-    if (diet.hasOwnProperty("vegan")) {
+    if (diet.vegan) {
       stats.vegan++;
     }
 
-    if (diet.hasOwnProperty("glutenFree")) {
+    if (diet.glutenFree) {
       stats.glutenFree++;
     }
     if (diet.other && diet.otherDiets !== "") {
