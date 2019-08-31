@@ -12,6 +12,7 @@ const authentication = require("./controllers/authentication");
 const data = require("./controllers/retrieval");
 const info = require("./controllers/info");
 const recover = require("./controllers/recovery");
+const checkIn = require("./controllers/check-in");
 
 const app = express();
 app.use(bodyParser.json());
@@ -50,4 +51,6 @@ app.post('/updateInfoStudent', authentication.verifyJWT, info.updateInfoStudent)
 app.post('/recoverPasswordStudent', recover.setNewPasswordStudent);
 app.post('/sendRecoveryEmailStudent', recover.requestPasswordRecoveryStudent);
 app.post('/verifyRecoverToken', recover.verifyRecoverToken);
+
+app.post('/checkInStudent', authentication.verifyJWT, checkIn.checkInStudent);
 

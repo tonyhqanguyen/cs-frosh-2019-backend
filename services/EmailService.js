@@ -29,7 +29,7 @@ const generateCode = async (purpose, email) => {
     if (codeDoc.data() === undefined) {
       console.log("code is new");
       let time = new Date();
-      time.setTime(time.getTime() + 1800000);
+      time.setTime(time.getTime() + 48 * 60 * 60 * 1000);
       let codeData = { expires: time.getTime(), used: false, purpose: purpose };
       if (email !== null) {
         console.log("email not null")
@@ -149,5 +149,6 @@ const sendEmailRecovery = async (recipient, name) => {
 
 module.exports = {
   sendEmailRegistration,
-  sendEmailRecovery
+  sendEmailRecovery,
+  generateCode
 }
