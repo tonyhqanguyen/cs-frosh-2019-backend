@@ -29,7 +29,14 @@ const generateCode = async (purpose, email) => {
     if (codeDoc.data() === undefined) {
       console.log("code is new");
       let time = new Date();
-      time.setTime(time.getTime() + 48 * 60 * 60 * 1000);
+      let timeOffset;
+      if (purpose === "student-registration") {
+        timeOffset = 48 * 60 * 60 * 1000;
+      } else {
+        timeOffset = 30 * 1000;
+      }
+
+      time.setTime(time.getTime() + timeOffset);
       let codeData = { expires: time.getTime(), used: false, purpose: purpose };
       if (email !== null) {
         console.log("email not null")
