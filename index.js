@@ -13,6 +13,7 @@ const data = require("./controllers/retrieval");
 const info = require("./controllers/info");
 const recover = require("./controllers/recovery");
 const checkIn = require("./controllers/check-in");
+const questions = require("./controllers/questions");
 
 const app = express();
 app.use(bodyParser.json());
@@ -53,4 +54,8 @@ app.post('/sendRecoveryEmailStudent', recover.requestPasswordRecoveryStudent);
 app.post('/verifyRecoverToken', recover.verifyRecoverToken);
 
 app.post('/checkInStudent', authentication.verifyJWT, checkIn.checkInStudent);
+
+app.post('/questions', questions.registerQuestion);
+app.post('/getQuestions', authentication.verifyJWT, questions.retrieveQuestions);
+app.post('/setAnswered', authentication.verifyJWT, questions.setQuestionAnswered);
 
